@@ -1,13 +1,28 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:weather_bloc_cubit/data/model/weather.dart';
+import 'package:weather_bloc_cubit/data/weather_repository.dart';
 
 part 'weather_event.dart';
 part 'weather_state.dart';
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
-  WeatherBloc() : super(WeatherInitial()) {
-    on<WeatherEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+  final WeatherRepository _weatherRepository;
+
+  WeatherBloc(this._weatherRepository) : super(WeatherInitial()) {
+    on<GetWeather>(_onGetWeather);
+  }
+
+  Future<void> _onGetWeather(
+    GetWeather event,
+    Emitter<WeatherState> emit,
+  ) async {
+    try {
+      emit(WeatherLoading());
+      final weather = await _weatherRepository.fetchWeather(event.cityName);
+      emit(WeatherLoaded(weather));
+    } on NetworkException {
+      emit(WeatherError("Couldn't fetch weather. Is the device online?"));
+    }
   }
 }
