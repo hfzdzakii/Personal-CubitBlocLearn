@@ -5,6 +5,8 @@ import 'package:weather_bloc_cubit/bloc/weather_bloc.dart';
 import 'package:weather_bloc_cubit/data/model/weather.dart';
 
 class WeatherSearchPage extends StatefulWidget {
+  const WeatherSearchPage({super.key});
+
   @override
   _WeatherSearchPageState createState() => _WeatherSearchPageState();
 }
@@ -70,6 +72,8 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
 }
 
 class CityInputField extends StatelessWidget {
+  const CityInputField({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
